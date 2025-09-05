@@ -672,7 +672,7 @@ body::before {
 
 .hero-container {
     max-width: 1200px;
-    margin: var(--space-6) auto 0;
+    margin: var(--space-12) auto 0;
     padding: 0 var(--space-4);
     position: relative;
     z-index: 2;
@@ -680,13 +680,13 @@ body::before {
 
 @media (max-width: 768px) {
     .hero-container {
-        margin: var(--space-6) auto 0;
+        margin: var(--space-2) auto 0;
     }
 }
 
 @media (max-width: 375px) {
     .hero-container {
-        margin: var(--space-4) auto 0;
+        margin: var(--space-1) auto 0;
         padding: 0 var(--space-3);
     }
 }
