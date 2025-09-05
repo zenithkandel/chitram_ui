@@ -210,6 +210,7 @@ function initializeContactForm() {
             // Validate form
             const name = formData.get('name');
             const email = formData.get('email');
+            const phone = formData.get('phone'); // Optional field
             const subject = formData.get('subject');
             const message = formData.get('message');
             
@@ -225,22 +226,38 @@ function initializeContactForm() {
                 return;
             }
             
+            // Phone validation (optional - only validate if provided)
+            if (phone && phone.trim()) {
+                const phoneRegex = /^[\+]?[(]?[\+]?\d{1,4}[)]?[-\s\.]?\d{1,4}[-\s\.]?\d{1,9}$/;
+                if (!phoneRegex.test(phone.trim())) {
+                    showToast('Please enter a valid phone number', 'error');
+                    return;
+                }
+            }
+            
             // Show loading state
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             submitButton.disabled = true;
             
             try {
+                const contactData = {
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    message: message
+                };
+                
+                // Add phone if provided
+                if (phone && phone.trim()) {
+                    contactData.phone = phone.trim();
+                }
+                
                 const response = await fetch('/api/contact', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        name: name,
-                        email: email,
-                        subject: subject,
-                        message: message
-                    })
+                    body: JSON.stringify(contactData)
                 });
                 
                 const result = await response.json();
