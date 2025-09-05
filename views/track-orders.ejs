@@ -80,11 +80,202 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Track Orders Content will go here -->
-        <section class="track-section">
+        <!-- Hero Section -->
+        <section class="hero-section">
             <div class="container">
-                <h1>Track Your Orders</h1>
-                <p>Track orders content will be added here...</p>
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>Track Your <span class="highlight">Orders</span></h1>
+                        <p class="hero-subtitle">Stay Updated with Your Art Journey</p>
+                        <p class="hero-description">Enter your order details below to get real-time updates on your artwork purchase and delivery status.</p>
+                    </div>
+                    <div class="hero-icon">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tracking Form Section -->
+        <section class="tracking-section">
+            <div class="container">
+                <div class="tracking-form-container">
+                    <div class="form-header">
+                        <h2>Find Your Order</h2>
+                        <p>Enter your order ID and email address to track your artwork purchase</p>
+                    </div>
+                    
+                    <form class="tracking-form" id="trackingForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="order_id">
+                                    <i class="fas fa-hashtag"></i>
+                                    Order ID *
+                                </label>
+                                <input type="text" id="order_id" name="order_id" required placeholder="Enter your order ID (e.g., CHT-12345)">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">
+                                    <i class="fas fa-envelope"></i>
+                                    Email Address *
+                                </label>
+                                <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="track-btn" id="trackBtn">
+                            <span class="btn-content">
+                                <i class="fas fa-search"></i>
+                                <span id="trackText">Track My Order</span>
+                            </span>
+                            <span id="trackSpinner" class="loading-spinner hidden">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Searching...
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Status Guide Section -->
+        <section class="status-guide-section">
+            <div class="container">
+                <div class="guide-header">
+                    <h2>Order Status Guide</h2>
+                    <p>Understanding your order journey</p>
+                </div>
+                
+                <div class="status-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon placed">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Order Placed</h3>
+                            <p>Your order has been successfully placed and payment confirmed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon seen">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Order Reviewed</h3>
+                            <p>Our team has reviewed your order and artwork selection</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon contacted">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Customer Contacted</h3>
+                            <p>We've reached out regarding delivery details and preferences</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon sold">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Artwork Prepared</h3>
+                            <p>Your artwork is being prepared and packaged for delivery</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon delivered">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Delivered</h3>
+                            <p>Your artwork has been successfully delivered to you</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Result Section -->
+        <section id="orderResultSection" class="order-result-section hidden">
+            <div class="container">
+                <div id="orderResult" class="order-result">
+                    <!-- Order details will be displayed here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Error Message Section -->
+        <section id="errorSection" class="error-section hidden">
+            <div class="container">
+                <div id="errorMessage" class="error-message">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="error-content">
+                        <h3>Order Not Found</h3>
+                        <p id="errorText">We couldn't find an order with the provided details.</p>
+                        <div class="error-actions">
+                            <button onclick="clearResults()" class="btn-retry">
+                                <i class="fas fa-redo"></i>
+                                Try Again
+                            </button>
+                            <a href="/contact" class="btn-contact">
+                                <i class="fas fa-envelope"></i>
+                                Contact Support
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Help Section -->
+        <section class="help-section">
+            <div class="container">
+                <div class="help-content">
+                    <div class="help-card">
+                        <div class="help-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3>Need Help?</h3>
+                        <p>Can't find your order or having trouble tracking?</p>
+                        <div class="help-actions">
+                            <a href="/contact" class="help-link">
+                                <i class="fas fa-envelope"></i>
+                                Contact Support
+                            </a>
+                            <a href="/help" class="help-link">
+                                <i class="fas fa-life-ring"></i>
+                                Help Center
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="help-card">
+                        <div class="help-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3>Order Information</h3>
+                        <p>Find your order ID in the confirmation email we sent you after purchase.</p>
+                        <div class="help-tips">
+                            <div class="tip">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Order IDs start with "CHT-" followed by numbers</span>
+                            </div>
+                            <div class="tip">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Check your spam folder if you can't find the email</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>

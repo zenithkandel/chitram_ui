@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeDropdown();
     initializeCart();
     initializeToast();
+    initializeOrderTracking();
 });
 
 // Navigation functionality
@@ -193,6 +194,239 @@ function showToast(message, type = 'success') {
         toast.classList.remove('show');
     }, 3000);
 }
+
+// Order tracking functionality
+function initializeOrderTracking() {
+    const trackingForm = document.getElementById('trackingForm');
+    
+    if (trackingForm) {
+        trackingForm.addEventListener('submit', handleOrderTracking);
+    }
+}
+
+async function handleOrderTracking(e) {
+    e.preventDefault();
+    
+    const trackBtn = document.getElementById('trackBtn');
+    const trackText = document.getElementById('trackText');
+    const trackSpinner = document.getElementById('trackSpinner');
+    const btnContent = trackBtn.querySelector('.btn-content');
+    
+    // Show loading state
+    trackBtn.disabled = true;
+    btnContent.style.display = 'none';
+    trackSpinner.classList.remove('hidden');
+    
+    // Hide previous results
+    clearResults();
+    
+    try {
+        const formData = new FormData(e.target);
+        const data = {
+            order_id: formData.get('order_id').trim(),
+            email: formData.get('email').trim()
+        };
+        
+        // Validate input
+        if (!data.order_id || !data.email) {
+            throw new Error('Please fill in all required fields');
+        }
+        
+        const response = await fetch('/api/track-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success && result.order) {
+            displayOrderDetails(result.order);
+            showToast('Order found successfully!', 'success');
+        } else {
+            showError(result.error || 'Order not found. Please check your details and try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showError(error.message || 'Error tracking order. Please try again.');
+    } finally {
+        // Reset button state
+        trackBtn.disabled = false;
+        btnContent.style.display = 'flex';
+        trackSpinner.classList.add('hidden');
+    }
+}
+
+function displayOrderDetails(order) {
+    const orderResultSection = document.getElementById('orderResultSection');
+    const orderResult = document.getElementById('orderResult');
+    
+    // Status color mapping
+    const statusColors = {
+        'placed': '#ffc107',
+        'seen': '#17a2b8',
+        'contacted': '#6f42c1',
+        'sold': '#fd7e14',
+        'delivered': '#28a745',
+        'canceled': '#dc3545'
+    };
+    
+    // Status descriptions
+    const statusDescriptions = {
+        'placed': 'Your order has been placed successfully and is awaiting review',
+        'seen': 'Your order has been reviewed by our team and is being processed',
+        'contacted': 'We have contacted you regarding your order details and delivery',
+        'sold': 'Your artwork has been confirmed and is being prepared for delivery',
+        'delivered': 'Your order has been successfully delivered to you',
+        'canceled': 'Your order has been canceled. Please contact support for details'
+    };
+    
+    const statusColor = statusColors[order.status] || '#6c757d';
+    const statusDescription = statusDescriptions[order.status] || 'Order status update';
+    
+    // Format item list
+    let itemsHTML = '';
+    if (order.item_list && order.item_list.length > 0) {
+        itemsHTML = order.item_list.map(item => `
+            <div class="order-item">
+                <span class="item-name">${escapeHtml(item.name || 'Artwork')}</span>
+                <span class="item-price">₹${parseFloat(item.price || 0).toLocaleString()}</span>
+            </div>
+        `).join('');
+    } else {
+        itemsHTML = '<div class="order-item"><span class="item-name">Item details not available</span><span class="item-price">-</span></div>';
+    }
+    
+    // Format dates
+    const formatDate = (dateStr) => {
+        if (!dateStr) return 'Not available';
+        try {
+            return new Date(dateStr).toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch {
+            return dateStr;
+        }
+    };
+    
+    orderResult.innerHTML = `
+        <div class="order-card">
+            <div class="order-header">
+                <h2>Order Details</h2>
+                <div class="order-status" style="background-color: ${statusColor}">
+                    ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                </div>
+            </div>
+            
+            <div class="order-info">
+                <div class="info-section">
+                    <h3>Order Information</h3>
+                    <div class="info-row">
+                        <span class="label">Order ID:</span>
+                        <span class="value">${escapeHtml(order.order_id)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Customer:</span>
+                        <span class="value">${escapeHtml(order.customer_name)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Email:</span>
+                        <span class="value">${escapeHtml(order.customer_email)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Phone:</span>
+                        <span class="value">${escapeHtml(order.customer_phone || 'Not provided')}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Total Amount:</span>
+                        <span class="value total-amount">₹${order.total_amount.toLocaleString()}</span>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h3>Order Timeline</h3>
+                    <div class="info-row">
+                        <span class="label">Order Placed:</span>
+                        <span class="value">${formatDate(order.creation_date)}</span>
+                    </div>
+                    ${order.received_date ? `
+                        <div class="info-row">
+                            <span class="label">Order Received:</span>
+                            <span class="value">${formatDate(order.received_date)}</span>
+                        </div>
+                    ` : ''}
+                    ${order.delivered_date ? `
+                        <div class="info-row">
+                            <span class="label">Order Delivered:</span>
+                            <span class="value">${formatDate(order.delivered_date)}</span>
+                        </div>
+                    ` : ''}
+                </div>
+                
+                <div class="info-section">
+                    <h3>Items (${order.item_count || 1})</h3>
+                    <div class="order-items">
+                        ${itemsHTML}
+                    </div>
+                </div>
+                
+                <div class="status-description">
+                    <p><strong>Status:</strong> ${statusDescription}</p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    orderResultSection.classList.remove('hidden');
+    
+    // Smooth scroll to results
+    setTimeout(() => {
+        orderResultSection.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    }, 100);
+}
+
+function showError(message) {
+    const errorSection = document.getElementById('errorSection');
+    const errorText = document.getElementById('errorText');
+    
+    errorText.textContent = message;
+    errorSection.classList.remove('hidden');
+    
+    // Smooth scroll to error
+    setTimeout(() => {
+        errorSection.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    }, 100);
+}
+
+function clearResults() {
+    const orderResultSection = document.getElementById('orderResultSection');
+    const errorSection = document.getElementById('errorSection');
+    
+    orderResultSection.classList.add('hidden');
+    errorSection.classList.add('hidden');
+}
+
+// Utility function to escape HTML
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Global function for retry button
+window.clearResults = clearResults;
 
 // Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
