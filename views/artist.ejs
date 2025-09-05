@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Profile - Chitram</title>
+    <link rel="stylesheet" href="/css/artist.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>चित्रम्</h1>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-menu" id="navMenu">
+                <button class="nav-close" id="navClose">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="nav-links-container">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/gallery" class="nav-link">Gallery</a>
+                    <a href="/artists" class="nav-link active">Artists</a>
+                    <a href="/about" class="nav-link">About</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="/cart" class="nav-cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="nav-cart-text">Cart</span>
+                        <span class="cart-count" id="cartCountMobile">0</span>
+                    </a>
+                    <a href="/apply" class="nav-apply-btn">
+                        <i class="fas fa-paint-brush"></i>
+                        <span>Apply as Artist</span>
+                    </a>
+                    <a href="/track-orders" class="nav-track-btn">
+                        <i class="fas fa-search"></i>
+                        <span>Track Orders</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Desktop Actions -->
+            <div class="desktop-actions">
+                <div class="dropdown">
+                    <button class="dropdown-btn" id="dropdownBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </button>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="/apply" class="dropdown-item">
+                            <i class="fas fa-paint-brush"></i>
+                            Apply as Artist
+                        </a>
+                        <a href="/cart" class="dropdown-item">
+                            <i class="fas fa-shopping-cart"></i>
+                            View Cart
+                        </a>
+                        <a href="/track-orders" class="dropdown-item">
+                            <i class="fas fa-search"></i>
+                            Track Orders
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Artist Profile Content -->
+    <main class="main-content">
+        <!-- Artist Profile Section -->
+        <section class="simple-artist-profile">
+            <div class="container">
+                <div class="artist-profile-card">
+                    
+                    <!-- Profile Picture -->
+                    <div class="profile-picture">
+                        <img src="<%= artist.profile_picture %>" alt="<%= artist.full_name %>" 
+                             onerror="handleProfileImageError(this)">
+                    </div>
+
+                    <!-- Full Name -->
+                    <div class="artist-name">
+                        <h1><%= artist.full_name %></h1>
+                    </div>
+
+                    <!-- Experience in field -->
+                    <div class="experience">
+                        <h3>Experience in Field</h3>
+                        <p><%= artist.experience_years || ((new Date().getFullYear()) - (artist.started_art_since || new Date().getFullYear())) %> years</p>
+                    </div>
+
+                    <!-- School College -->
+                    <div class="education">
+                        <h3>School/College</h3>
+                        <p><%= artist.college_school || artist.school_college || 'Not specified' %></p>
+                    </div>
+
+                    <!-- District -->
+                    <div class="location">
+                        <h3>District</h3>
+                        <p><%= artist.district || 'Not specified' %></p>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="social-media">
+                        <h3>Social Media</h3>
+                        <div class="social-links">
+                            <% if (artist.social_media && Object.keys(artist.social_media).length > 0) { %>
+                                <% Object.keys(artist.social_media).forEach(platform => { %>
+                                    <% if (artist.social_media[platform]) { %>
+                                        <a href="<%= artist.social_media[platform] %>" target="_blank" class="social-link">
+                                            <i class="fab fa-<%= platform.toLowerCase() %>"></i>
+                                            <%= platform %>
+                                        </a>
+                                    <% } %>
+                                <% }); %>
+                            <% } else if (artist.socials) { %>
+                                <% try { %>
+                                    <% const socials = typeof artist.socials === 'string' ? JSON.parse(artist.socials) : artist.socials; %>
+                                    <% if (socials && Object.keys(socials).length > 0) { %>
+                                        <% Object.keys(socials).forEach(platform => { %>
+                                            <% if (socials[platform]) { %>
+                                                <a href="<%= socials[platform] %>" target="_blank" class="social-link">
+                                                    <i class="fab fa-<%= platform.toLowerCase() %>"></i>
+                                                    <%= platform %>
+                                                </a>
+                                            <% } %>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <p>No social media links available</p>
+                                    <% } %>
+                                <% } catch(e) { %>
+                                    <p>No social media links available</p>
+                                <% } %>
+                            <% } else { %>
+                                <p>No social media links available</p>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Bio -->
+                    <div class="bio">
+                        <h3>Bio</h3>
+                        <p><%= artist.bio || 'No bio available' %></p>
+                    </div>
+
+                </div>
+
+                <!-- Artist's Artworks Section -->
+                <div class="artist-artworks-section">
+                    <h2>Artworks by <%= artist.full_name %> (<%= artworks ? artworks.length : 0 %>)</h2>
+                    
+                    <% if (artworks && artworks.length > 0) { %>
+                        <div class="artworks-grid">
+                            <% artworks.forEach(artwork => { %>
+                                <div class="artwork-card">
+                                    <a href="/artwork/<%= artwork.unique_id %>" class="artwork-image-link">
+                                        <div class="artwork-image">
+                                            <img src="<%= artwork.art_image %>" alt="<%= artwork.art_name %>" 
+                                                 onerror="handleArtworkImageError(this)">
+                                            <div class="artwork-status <%= artwork.status %>">
+                                                <%= artwork.status.charAt(0).toUpperCase() + artwork.status.slice(1) %>
+                                            </div>
+                                            <div class="image-overlay">
+                                                <i class="fas fa-eye"></i>
+                                                <span>View Details</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="artwork-info">
+                                        <h4><%= artwork.art_name %></h4>
+                                        <p class="artwork-category"><%= artwork.art_category %></p>
+                                        <p class="artwork-description"><%= artwork.art_description %></p>
+                                        
+                                        <div class="artwork-details">
+                                            <div class="detail-item">
+                                                <span class="label">Size:</span>
+                                                <span class="value"><%= artwork.size_of_art || 'Not specified' %></span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="label">Work Hours:</span>
+                                                <span class="value"><%= artwork.work_hours || 'Not specified' %></span>
+                                            </div>
+                                            <div class="detail-item">
+                                                <span class="label">Type:</span>
+                                                <span class="value"><%= artwork.color_type === 'black_and_white' ? 'Black & White' : 'Color' %></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="artwork-footer">
+                                            <span class="price">₹<%= artwork.cost ? artwork.cost.toLocaleString() : 'Price not set' %></span>
+                                            <% if (artwork.status === 'listed') { %>
+                                                <button class="add-to-cart-btn" 
+                                                        onclick="addToCartFromData(this)"
+                                                        data-artwork-id="<%= artwork.unique_id %>"
+                                                        data-artwork-name="<%= artwork.art_name.replace(/"/g, '&quot;') %>"
+                                                        data-artwork-cost="<%= artwork.cost %>"
+                                                        data-artwork-image="<%= artwork.art_image %>"
+                                                        data-artist-name="<%= artist.full_name.replace(/"/g, '&quot;') %>"
+                                                        data-artist-id="<%= artist.unique_id %>">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                    Add to Cart
+                                                </button>
+                                            <% } else { %>
+                                                <span class="status-badge <%= artwork.status %>">
+                                                    <%= artwork.status.charAt(0).toUpperCase() + artwork.status.slice(1) %>
+                                                </span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <div class="no-artworks">
+                            <i class="fas fa-palette"></i>
+                            <h3>No Artworks Available</h3>
+                            <p>This artist hasn't uploaded any artworks yet.</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>चित्रम् Chitram</h3>
+                    <p>Digital art marketplace connecting artists with art lovers worldwide. Discover unique artworks and support talented creators.</p>
+                    <div class="footer-stats">
+                        <div class="footer-stat">
+                            <span class="stat-number"><%= stats.totalArtists || 0 %></span>
+                            <span class="stat-label">Artists</span>
+                        </div>
+                        <div class="footer-stat">
+                            <span class="stat-number"><%= stats.totalArts || 0 %></span>
+                            <span class="stat-label">Artworks</span>
+                        </div>
+                        <div class="footer-stat">
+                            <span class="stat-number"><%= stats.dailyViews || 0 %></span>
+                            <span class="stat-label">Daily Views</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Explore</h4>
+                        <a href="/gallery">
+                            <i class="fas fa-images"></i>
+                            Gallery
+                        </a>
+                        <a href="/artists">
+                            <i class="fas fa-users"></i>
+                            Artists
+                        </a>
+                        <a href="/about">
+                            <i class="fas fa-info-circle"></i>
+                            About Us
+                        </a>
+                        <a href="/featured">
+                            <i class="fas fa-star"></i>
+                            Featured
+                        </a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>For Artists</h4>
+                        <a href="/apply">
+                            <i class="fas fa-paint-brush"></i>
+                            Apply Now
+                        </a>
+                        <a href="/commission">
+                            <i class="fas fa-handshake"></i>
+                            Commission Info
+                        </a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <a href="/track-orders">
+                            <i class="fas fa-search"></i>
+                            Track Orders
+                        </a>
+                        <a href="/contact">
+                            <i class="fas fa-envelope"></i>
+                            Contact Us
+                        </a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" aria-label="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <p>&copy; 2025 Chitram. All rights reserved.</p>
+                    <div class="footer-legal">
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/terms">Terms of Service</a>
+                        <a href="/cookies">Cookie Policy</a>
+                    </div>
+                </div>
+                <div class="footer-bottom-right">
+                    <p>Made with <i class="fas fa-heart"></i> for art lovers</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="/js/image-handler.js"></script>
+    <script src="/js/artist.js"></script>
+    <script>
+        function addToCartFromData(button) {
+            // Extract data from button attributes
+            const artworkData = {
+                unique_id: button.getAttribute('data-artwork-id'),
+                art_name: button.getAttribute('data-artwork-name'),
+                cost: parseFloat(button.getAttribute('data-artwork-cost')),
+                art_image: button.getAttribute('data-artwork-image'),
+                artist_name: button.getAttribute('data-artist-name'),
+                artist_unique_id: button.getAttribute('data-artist-id')
+            };
+            
+            // Add to cart using the existing cart functionality
+            if (typeof addToCart === 'function') {
+                addToCart(artworkData);
+            } else {
+                // Fallback alert
+                alert('Add to cart functionality coming soon! Artwork: ' + artworkData.art_name);
+            }
+        }
+        
+        // Keep old function for compatibility
+        function addToCart(artworkData) {
+            // This will be handled by the main cart.js functionality
+            console.log('Adding to cart:', artworkData);
+            
+            // Show toast notification
+            if (typeof showToast === 'function') {
+                showToast('success', `${artworkData.art_name} added to cart!`);
+            } else {
+                alert(`${artworkData.art_name} added to cart!`);
+            }
+        }
+
+        // Handle artwork image loading errors
+        function handleArtworkImageError(img) {
+            // Prevent infinite loop by checking if already set to placeholder
+            if (img.src.includes('placeholder-art.jpg')) {
+                return;
+            }
+            
+            // Set to placeholder image
+            img.src = '/images/placeholder-art.jpg';
+            
+            // If placeholder also fails, create a simple colored div
+            img.onerror = function() {
+                createPlaceholderDiv(this);
+            };
+        }
+
+        // Create a colored placeholder div if no images work
+        function createPlaceholderDiv(img) {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'image-placeholder';
+            placeholder.innerHTML = `
+                <i class="fas fa-image"></i>
+                <span>No Image</span>
+            `;
+            
+            // Replace the img with the placeholder
+            img.parentNode.replaceChild(placeholder, img);
+        }
+
+        // Handle profile image error
+        function handleProfileImageError(img) {
+            if (img.src.includes('default-artist.jpg')) {
+                return;
+            }
+            
+            img.src = '/images/default-artist.jpg';
+            
+            img.onerror = function() {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'profile-placeholder';
+                placeholder.innerHTML = `
+                    <i class="fas fa-user"></i>
+                `;
+                img.parentNode.replaceChild(placeholder, img);
+            };
+        }
+    </script>
+</body>
+</html>

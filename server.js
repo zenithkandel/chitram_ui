@@ -151,9 +151,10 @@ app.get('/artist/:id', (req, res) => {
         profile_picture: 'sample-artist.jpg'
     };
     
-    res.render('artist-profile', {
+    res.render('artist', {
         artist: artist,
         artworks: mockArtworks.slice(0, 3),
+        stats: mockStats,
         title: `${artist.full_name} - Chitram`
     });
 });
