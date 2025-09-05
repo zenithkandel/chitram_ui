@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeDropdown();
     initializeCart();
     initializeToast();
+    initializeApplicationForm();
 });
 
 // Navigation functionality
@@ -235,3 +236,232 @@ document.addEventListener('keydown', function(e) {
         }
     }
 });
+
+// Application Form Functionality
+function initializeApplicationForm() {
+    const applicationForm = document.getElementById('applicationForm');
+    const profilePictureInput = document.getElementById('profilePicture');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewContainer = document.querySelector('.image-preview');
+    const submitBtn = document.querySelector('.submit-btn');
+    const loadingSpinner = document.querySelector('.loading-spinner');
+    const btnContent = document.querySelector('.btn-content');
+    const applicationSection = document.querySelector('.application-section');
+    const successSection = document.querySelector('.success-section');
+
+    // Image Preview Functionality
+    if (profilePictureInput && imagePreview) {
+        profilePictureInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            
+            if (file) {
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    showToast('Please select a valid image file', 'error');
+                    return;
+                }
+                
+                // Validate file size (5MB max)
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('Image size must be less than 5MB', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                    previewContainer.classList.remove('empty');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.classList.add('hidden');
+                previewContainer.classList.add('empty');
+            }
+        });
+    }
+
+    // Form Submission
+    if (applicationForm) {
+        applicationForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validate form
+            if (!validateApplicationForm()) {
+                return;
+            }
+            
+            // Show loading state
+            setLoadingState(true);
+            
+            try {
+                const formData = new FormData(applicationForm);
+                
+                const response = await fetch('/api/applications/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showApplicationSuccess();
+                } else {
+                    throw new Error(result.message || 'Failed to submit application');
+                }
+            } catch (error) {
+                console.error('Error submitting application:', error);
+                showToast('Failed to submit application. Please try again.', 'error');
+            } finally {
+                setLoadingState(false);
+            }
+        });
+    }
+
+    // Submit another application button
+    const submitAnotherBtn = document.getElementById('submitAnother');
+    if (submitAnotherBtn) {
+        submitAnotherBtn.addEventListener('click', function() {
+            resetApplicationForm();
+        });
+    }
+
+    // Form field focus effects
+    const formInputs = document.querySelectorAll('.form-group input, .form-group textarea');
+    formInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.style.borderColor = '#6366f1';
+        });
+        
+        input.addEventListener('blur', function() {
+            if (!this.value.trim()) {
+                this.style.borderColor = '';
+            }
+        });
+    });
+}
+
+// Form Validation
+function validateApplicationForm() {
+    const requiredFields = [
+        'firstName',
+        'lastName',
+        'email',
+        'phone',
+        'dateOfBirth',
+        'address',
+        'experience',
+        'specialization',
+        'bio'
+    ];
+    
+    let isValid = true;
+    
+    requiredFields.forEach(fieldName => {
+        const field = document.getElementById(fieldName);
+        if (field && !field.value.trim()) {
+            field.style.borderColor = '#ef4444';
+            isValid = false;
+        } else if (field) {
+            field.style.borderColor = '';
+        }
+    });
+    
+    // Email validation
+    const email = document.getElementById('email');
+    if (email && email.value && !isValidEmail(email.value)) {
+        email.style.borderColor = '#ef4444';
+        showToast('Please enter a valid email address', 'error');
+        isValid = false;
+    }
+    
+    // Phone validation
+    const phone = document.getElementById('phone');
+    if (phone && phone.value && !isValidPhone(phone.value)) {
+        phone.style.borderColor = '#ef4444';
+        showToast('Please enter a valid phone number', 'error');
+        isValid = false;
+    }
+    
+    if (!isValid) {
+        showToast('Please fill in all required fields correctly', 'error');
+    }
+    
+    return isValid;
+}
+
+// Email validation
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Phone validation
+function isValidPhone(phone) {
+    const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+    return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
+}
+
+// Loading state management
+function setLoadingState(loading) {
+    const submitBtn = document.querySelector('.submit-btn');
+    const loadingSpinner = document.querySelector('.loading-spinner');
+    const btnContent = document.querySelector('.btn-content');
+    
+    if (submitBtn && loadingSpinner && btnContent) {
+        if (loading) {
+            submitBtn.disabled = true;
+            btnContent.classList.add('hidden');
+            loadingSpinner.classList.remove('hidden');
+        } else {
+            submitBtn.disabled = false;
+            btnContent.classList.remove('hidden');
+            loadingSpinner.classList.add('hidden');
+        }
+    }
+}
+
+// Show success section
+function showApplicationSuccess() {
+    const applicationSection = document.querySelector('.application-section');
+    const successSection = document.querySelector('.success-section');
+    
+    if (applicationSection && successSection) {
+        applicationSection.classList.add('hidden');
+        successSection.classList.remove('hidden');
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+// Reset form for new application
+function resetApplicationForm() {
+    const applicationForm = document.getElementById('applicationForm');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewContainer = document.querySelector('.image-preview');
+    const applicationSection = document.querySelector('.application-section');
+    const successSection = document.querySelector('.success-section');
+    
+    // Reset form
+    if (applicationForm) {
+        applicationForm.reset();
+    }
+    
+    // Clear image preview
+    if (imagePreview && previewContainer) {
+        imagePreview.classList.add('hidden');
+        previewContainer.classList.add('empty');
+    }
+    
+    // Show form section
+    if (applicationSection && successSection) {
+        successSection.classList.add('hidden');
+        applicationSection.classList.remove('hidden');
+    }
+    
+    // Scroll to form
+    if (applicationSection) {
+        applicationSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}

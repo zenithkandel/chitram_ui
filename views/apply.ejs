@@ -80,11 +80,235 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Content will be added here -->
-        <div class="container">
-            <h1>Apply as Artist Page</h1>
-            <p>Content coming soon...</p>
-        </div>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>Apply as <span class="highlight">Artist</span></h1>
+                        <p class="hero-subtitle">Join the चित्रम् Community</p>
+                        <p class="hero-description">Showcase your artwork to the world and connect with art lovers. Join our platform and start your artistic journey with us.</p>
+                    </div>
+                    <div class="hero-icon">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Form Section -->
+        <section class="application-section">
+            <div class="container">
+                <div class="application-form-container">
+                    <div class="form-header">
+                        <h2>Artist Application</h2>
+                        <p>Fill out the form below to join चित्रम् as an artist and start showcasing your artwork</p>
+                    </div>
+                    
+                    <form id="applicationForm" class="application-form" enctype="multipart/form-data">
+                        <div class="form-section">
+                            <h3>Personal Information</h3>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="full_name">
+                                        <i class="fas fa-user"></i>
+                                        Full Name *
+                                    </label>
+                                    <input type="text" id="full_name" name="full_name" required placeholder="Enter your full name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="age">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        Age *
+                                    </label>
+                                    <input type="number" id="age" name="age" min="16" max="100" required placeholder="Your age">
+                                </div>
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="email">
+                                        <i class="fas fa-envelope"></i>
+                                        Email *
+                                    </label>
+                                    <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">
+                                        <i class="fas fa-phone"></i>
+                                        Phone
+                                    </label>
+                                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                                </div>
+                            </div>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="city">
+                                        <i class="fas fa-city"></i>
+                                        City *
+                                    </label>
+                                    <input type="text" id="city" name="city" required placeholder="Enter your city">
+                                </div>
+                                <div class="form-group">
+                                    <label for="district">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        District *
+                                    </label>
+                                    <input type="text" id="district" name="district" required placeholder="Enter your district">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Educational & Artistic Background</h3>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="started_art_at">
+                                        <i class="fas fa-clock"></i>
+                                        Started Art At
+                                    </label>
+                                    <input type="text" id="started_art_at" name="started_art_at" placeholder="e.g., Age 10, 2018">
+                                </div>
+                                <div class="form-group">
+                                    <label for="school_college">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        School/College
+                                    </label>
+                                    <input type="text" id="school_college" name="school_college" placeholder="Enter your educational institution">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="socials">
+                                    <i class="fas fa-share-alt"></i>
+                                    Social Media Links (JSON format)
+                                </label>
+                                <textarea id="socials" name="socials" rows="3" placeholder='{"facebook": "link", "instagram": "link", "twitter": "link"}'></textarea>
+                                <small class="form-help">Enter social media links in JSON format (optional)</small>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h3>Profile & Bio</h3>
+                            
+                            <div class="form-group">
+                                <label for="profile_picture">
+                                    <i class="fas fa-image"></i>
+                                    Profile Picture
+                                </label>
+                                <input type="file" id="profile_picture" name="profile_picture" accept="image/*" onchange="previewImage(this)">
+                                <div id="imagePreview" class="image-preview empty">
+                                    <span>No image selected</span>
+                                    <img id="previewImage" class="hidden">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bio">
+                                    <i class="fas fa-user-circle"></i>
+                                    Bio
+                                </label>
+                                <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself and your artistic journey..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">
+                                    <i class="fas fa-comment"></i>
+                                    Message to Admin
+                                </label>
+                                <textarea id="message" name="message" rows="4" placeholder="Any additional message or information you'd like to share..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <span class="btn-content">
+                                <i class="fas fa-paper-plane"></i>
+                                <span id="submitText">Submit Application</span>
+                            </span>
+                            <span id="submitSpinner" class="loading-spinner hidden">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Submitting...
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Message Section -->
+        <section id="successSection" class="success-section hidden">
+            <div class="container">
+                <div class="success-message">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="success-content">
+                        <h3>Application Submitted Successfully!</h3>
+                        <p>Thank you for your application! We have received your artist application and will review it carefully.</p>
+                        <p>You will be notified via email about the status of your application within 3-5 business days.</p>
+                        <p>Welcome to the चित्रम् community!</p>
+                        <div class="success-actions">
+                            <button onclick="resetForm()" class="btn-secondary">
+                                <i class="fas fa-plus"></i>
+                                Submit Another Application
+                            </button>
+                            <a href="/" class="btn-primary">
+                                <i class="fas fa-home"></i>
+                                Go to Homepage
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Help Section -->
+        <section class="help-section">
+            <div class="container">
+                <div class="help-content">
+                    <div class="help-card">
+                        <div class="help-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3>Need Help?</h3>
+                        <p>Have questions about the application process or requirements?</p>
+                        <div class="help-actions">
+                            <a href="/contact" class="help-link">
+                                <i class="fas fa-envelope"></i>
+                                Contact Support
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="help-card">
+                        <div class="help-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3>Application Tips</h3>
+                        <p>Tips for a successful artist application on चित्रम्.</p>
+                        <div class="help-tips">
+                            <div class="tip">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Provide a clear and professional profile picture</span>
+                            </div>
+                            <div class="tip">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Write a detailed bio about your artistic journey</span>
+                            </div>
+                            <div class="tip">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Include your social media links for better exposure</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -128,73 +352,62 @@
                         <h4>Explore</h4>
                         <a href="/gallery">
                             <i class="fas fa-images"></i>
-                            Browse Gallery
+                            Gallery
                         </a>
                         <a href="/artists">
                             <i class="fas fa-users"></i>
-                            Our Artists
+                            Artists
                         </a>
-                        <a href="/categories">
-                            <i class="fas fa-th-large"></i>
-                            Categories
+                        <a href="/about">
+                            <i class="fas fa-info-circle"></i>
+                            About Us
                         </a>
                         <a href="/featured">
                             <i class="fas fa-star"></i>
-                            Featured Works
+                            Featured
                         </a>
                     </div>
+                    
                     <div class="footer-column">
-                        <h4>Services</h4>
+                        <h4>For Artists</h4>
                         <a href="/apply">
                             <i class="fas fa-paint-brush"></i>
-                            Become Artist
+                            Apply Now
                         </a>
                         <a href="/commission">
                             <i class="fas fa-handshake"></i>
-                            Custom Commission
-                        </a>
-                        <a href="/framing">
-                            <i class="fas fa-frame"></i>
-                            Art Framing
-                        </a>
-                        <a href="/consultation">
-                            <i class="fas fa-comments"></i>
-                            Art Consultation
+                            Commission Info
                         </a>
                     </div>
+                    
                     <div class="footer-column">
                         <h4>Support</h4>
                         <a href="/track-orders">
                             <i class="fas fa-search"></i>
                             Track Orders
                         </a>
-                        <a href="/returns">
-                            <i class="fas fa-undo"></i>
-                            Returns Policy
-                        </a>
-                        <a href="/shipping">
-                            <i class="fas fa-shipping-fast"></i>
-                            Shipping Info
-                        </a>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Company</h4>
-                        <a href="/about">
-                            <i class="fas fa-info-circle"></i>
-                            About Us
-                        </a>
-                        <a href="/careers">
-                            <i class="fas fa-briefcase"></i>
-                            Careers
-                        </a>
-                        <a href="/press">
-                            <i class="fas fa-newspaper"></i>
-                            Press Kit
-                        </a>
                         <a href="/contact">
                             <i class="fas fa-envelope"></i>
-                            Contact
+                            Contact Us
                         </a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" aria-label="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -215,5 +428,127 @@
     </footer>
 
     <script src="/js/apply.js"></script>
+    <script>
+        // Image preview function
+        function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            const previewImage = document.getElementById('previewImage');
+            const emptyText = preview.querySelector('span');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewImage.classList.remove('hidden');
+                    emptyText.style.display = 'none';
+                    preview.classList.remove('empty');
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                previewImage.classList.add('hidden');
+                emptyText.style.display = 'block';
+                preview.classList.add('empty');
+            }
+        }
+        
+        // Application form submission
+        document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            const submitSpinner = document.getElementById('submitSpinner');
+            const btnContent = submitBtn.querySelector('.btn-content');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            btnContent.style.display = 'none';
+            submitSpinner.classList.remove('hidden');
+            
+            try {
+                const formData = new FormData(this);
+                
+                const response = await fetch('/api/applications/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Reset form
+                    this.reset();
+                    
+                    // Reset image preview
+                    const preview = document.getElementById('imagePreview');
+                    const previewImage = document.getElementById('previewImage');
+                    const emptyText = preview.querySelector('span');
+                    previewImage.classList.add('hidden');
+                    emptyText.style.display = 'block';
+                    preview.classList.add('empty');
+                    
+                    // Show success section
+                    showSuccessMessage();
+                    showToast('Application submitted successfully!', 'success');
+                } else {
+                    showToast(result.error || 'Error submitting application. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error submitting application. Please try again.', 'error');
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                btnContent.style.display = 'flex';
+                submitSpinner.classList.add('hidden');
+            }
+        });
+        
+        // Show success message
+        function showSuccessMessage() {
+            const successSection = document.getElementById('successSection');
+            const applicationSection = document.querySelector('.application-section');
+            
+            applicationSection.style.display = 'none';
+            successSection.classList.remove('hidden');
+            
+            // Smooth scroll to success message
+            setTimeout(() => {
+                successSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 100);
+        }
+        
+        // Reset form function
+        function resetForm() {
+            const successSection = document.getElementById('successSection');
+            const applicationSection = document.querySelector('.application-section');
+            const form = document.getElementById('applicationForm');
+            
+            successSection.classList.add('hidden');
+            applicationSection.style.display = 'block';
+            form.reset();
+            
+            // Reset image preview
+            const preview = document.getElementById('imagePreview');
+            const previewImage = document.getElementById('previewImage');
+            const emptyText = preview.querySelector('span');
+            previewImage.classList.add('hidden');
+            emptyText.style.display = 'block';
+            preview.classList.add('empty');
+            
+            // Scroll to form
+            setTimeout(() => {
+                applicationSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 100);
+        }
+    </script>
 </body>
 </html>
