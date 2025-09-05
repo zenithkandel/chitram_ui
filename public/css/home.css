@@ -215,6 +215,10 @@ body::before {
     color: var(--accent-primary);
 }
 
+.nav-brand span {
+    display: none; /* Removed English text */
+}
+
 @media (max-width: 375px) {
     .nav-brand h1 {
         font-size: var(--font-size-lg);
@@ -296,16 +300,97 @@ body::before {
     margin-top: var(--space-8);
 }
 
+/* Dropdown Styles */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-size: var(--font-size-sm);
+}
+
+.dropdown-btn:hover {
+    background-color: var(--bg-hover);
+    border-color: var(--accent-border);
+}
+
+.dropdown-arrow {
+    font-size: var(--font-size-xs);
+    transition: transform var(--transition-fast);
+}
+
+.dropdown.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2);
+    min-width: 180px;
+    box-shadow: var(--shadow-xl);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--transition-normal);
+    z-index: 1000;
+}
+
+.dropdown.active .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+}
+
+.dropdown-item:hover {
+    background-color: var(--accent-light);
+    color: var(--accent-primary);
+}
+
+.dropdown-item i {
+    font-size: var(--font-size-sm);
+    width: 16px;
+    text-align: center;
+}
+
 @media (max-width: 375px) {
     .nav-actions {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
         gap: var(--space-4);
         margin-top: var(--space-6);
     }
     
-    .nav-actions .btn {
-        width: 100%;
-        max-width: 200px;
+    .dropdown-menu {
+        right: -20px;
+        min-width: 160px;
     }
 }
 

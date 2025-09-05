@@ -16,7 +16,6 @@
         <div class="nav-container">
             <div class="nav-brand">
                 <h1>चित्रम्</h1>
-                <span>Chitram</span>
             </div>
             
             <button class="nav-toggle" id="navToggle">
@@ -30,13 +29,31 @@
                 <a href="/gallery" class="nav-link">Gallery</a>
                 <a href="/artists" class="nav-link">Artists</a>
                 <a href="/about" class="nav-link">About</a>
-                <a href="/apply" class="nav-link">Apply</a>
                 <div class="nav-actions">
                     <a href="/cart" class="cart-btn">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="cart-count" id="cartCount">0</span>
                     </a>
-                    <a href="/track-orders" class="btn btn-outline">Track Order</a>
+                    <div class="dropdown">
+                        <button class="dropdown-btn" id="dropdownBtn">
+                            <i class="fas fa-user"></i>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a href="/apply" class="dropdown-item">
+                                <i class="fas fa-paint-brush"></i>
+                                Apply as Artist
+                            </a>
+                            <a href="/cart" class="dropdown-item">
+                                <i class="fas fa-shopping-cart"></i>
+                                View Cart
+                            </a>
+                            <a href="/track-orders" class="dropdown-item">
+                                <i class="fas fa-search"></i>
+                                Track Orders
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,16 +105,6 @@
                     <div class="stat-content">
                         <h3><%= stats.totalArts || 0 %></h3>
                         <p>Artworks</p>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-shopping-bag"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3><%= stats.totalOrders || 0 %></h3>
-                        <p>Orders</p>
                     </div>
                 </div>
             </div>
