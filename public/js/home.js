@@ -1,9 +1,11 @@
 // Home Page JavaScript
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
+    initializeDropdown();
     initializeCart();
     initializeAnimations();
     initializeToast();
+    initializeNewsletter();
 });
 
 // Navigation functionality
@@ -53,6 +55,82 @@ function initializeNavigation() {
                     span.style.opacity = '';
                 });
             });
+        });
+    }
+}
+
+// Dropdown functionality
+function initializeDropdown() {
+    const dropdownBtn = document.getElementById('dropdownBtn');
+    const dropdown = dropdownBtn?.closest('.dropdown');
+    
+    if (dropdownBtn && dropdown) {
+        dropdownBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+        
+        // Close dropdown when clicking on dropdown items
+        const dropdownItems = dropdown.querySelectorAll('.dropdown-item');
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', () => {
+                dropdown.classList.remove('active');
+            });
+        });
+        
+        // Close dropdown on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && dropdown.classList.contains('active')) {
+                dropdown.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Newsletter functionality
+function initializeNewsletter() {
+    const newsletterForm = document.getElementById('newsletterForm');
+    
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const emailInput = this.querySelector('input[type="email"]');
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                showToast('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Simple email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showToast('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Simulate newsletter subscription
+            const submitButton = this.querySelector('button');
+            const originalContent = submitButton.innerHTML;
+            
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            submitButton.disabled = true;
+            
+            setTimeout(() => {
+                showToast('Successfully subscribed to newsletter!', 'success');
+                emailInput.value = '';
+                submitButton.innerHTML = originalContent;
+                submitButton.disabled = false;
+            }, 1500);
         });
     }
 }
@@ -325,7 +403,7 @@ document.addEventListener('error', function(e) {
 
 // Keyboard navigation support
 document.addEventListener('keydown', function(e) {
-    // ESC key closes mobile menu
+    // ESC key closes mobile menu and dropdown
     if (e.key === 'Escape') {
         const navMenu = document.getElementById('navMenu');
         if (navMenu && navMenu.classList.contains('active')) {
@@ -340,6 +418,12 @@ document.addEventListener('keydown', function(e) {
                     span.style.opacity = '';
                 });
             }
+        }
+        
+        // Close dropdown
+        const dropdown = document.querySelector('.dropdown.active');
+        if (dropdown) {
+            dropdown.classList.remove('active');
         }
     }
 });

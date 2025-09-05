@@ -245,39 +245,124 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <h3>चित्रम् Chitram</h3>
-                    <p>Digital art marketplace connecting artists with art lovers worldwide.</p>
+                    <p>Digital art marketplace connecting artists with art lovers worldwide. Discover unique artworks and support talented creators.</p>
+                    <div class="footer-stats">
+                        <div class="footer-stat">
+                            <span class="stat-number"><%= stats.totalArtists || 0 %></span>
+                            <span class="stat-label">Artists</span>
+                        </div>
+                        <div class="footer-stat">
+                            <span class="stat-number"><%= stats.totalArts || 0 %></span>
+                            <span class="stat-label">Artworks</span>
+                        </div>
+                        <div class="footer-stat">
+                            <span class="stat-number"><%= stats.dailyViews || 0 %></span>
+                            <span class="stat-label">Daily Views</span>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="footer-links">
                     <div class="footer-column">
                         <h4>Explore</h4>
-                        <a href="/gallery">Gallery</a>
-                        <a href="/artists">Artists</a>
-                        <a href="/about">About</a>
+                        <a href="/gallery">
+                            <i class="fas fa-images"></i>
+                            Gallery
+                        </a>
+                        <a href="/artists">
+                            <i class="fas fa-users"></i>
+                            Artists
+                        </a>
+                        <a href="/about">
+                            <i class="fas fa-info-circle"></i>
+                            About Us
+                        </a>
+                        <a href="/featured">
+                            <i class="fas fa-star"></i>
+                            Featured
+                        </a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>For Artists</h4>
+                        <a href="/apply">
+                            <i class="fas fa-paint-brush"></i>
+                            Apply Now
+                        </a>
+                        <a href="/artist-guide">
+                            <i class="fas fa-book"></i>
+                            Artist Guide
+                        </a>
+                        <a href="/commission">
+                            <i class="fas fa-handshake"></i>
+                            Commission Info
+                        </a>
+                        <a href="/resources">
+                            <i class="fas fa-tools"></i>
+                            Resources
+                        </a>
                     </div>
                     
                     <div class="footer-column">
                         <h4>Support</h4>
-                        <a href="/track-orders">Track Orders</a>
-                        <a href="/contact">Contact</a>
-                        <a href="/faq">FAQ</a>
+                        <a href="/track-orders">
+                            <i class="fas fa-search"></i>
+                            Track Orders
+                        </a>
+                        <a href="/contact">
+                            <i class="fas fa-envelope"></i>
+                            Contact Us
+                        </a>
+                        <a href="/faq">
+                            <i class="fas fa-question-circle"></i>
+                            FAQ
+                        </a>
+                        <a href="/help">
+                            <i class="fas fa-life-ring"></i>
+                            Help Center
+                        </a>
                     </div>
                     
                     <div class="footer-column">
-                        <h4>Artists</h4>
-                        <a href="/apply">Apply</a>
-                        <a href="/artist-guide">Guide</a>
-                        <a href="/terms">Terms</a>
+                        <h4>Stay Updated</h4>
+                        <p class="newsletter-text">Subscribe to our newsletter for latest artworks and artist features.</p>
+                        <form class="newsletter-form" id="newsletterForm">
+                            <div class="input-group">
+                                <input type="email" placeholder="Enter your email" required>
+                                <button type="submit">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" aria-label="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" aria-label="YouTube">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Chitram. All rights reserved.</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
+                <div class="footer-bottom-left">
+                    <p>&copy; 2025 Chitram. All rights reserved.</p>
+                    <div class="footer-legal">
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/terms">Terms of Service</a>
+                        <a href="/cookies">Cookie Policy</a>
+                    </div>
+                </div>
+                <div class="footer-bottom-right">
+                    <p>Made with <i class="fas fa-heart"></i> for art lovers</p>
                 </div>
             </div>
         </div>
