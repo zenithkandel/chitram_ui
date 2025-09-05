@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeDropdown();
     initializeCart();
     initializeToast();
+    initializeApplicationForm();
 });
 
 // Navigation functionality
@@ -194,6 +195,167 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
+// Application form functionality
+function initializeApplicationForm() {
+    const applicationForm = document.getElementById('applicationForm');
+    
+    if (applicationForm) {
+        applicationForm.addEventListener('submit', handleFormSubmission);
+    }
+}
+
+// Image preview function
+function previewImage(input) {
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImage = document.getElementById('previewImage');
+    const uploadPlaceholder = imagePreview.querySelector('.upload-placeholder');
+    const imageOverlay = imagePreview.querySelector('.image-overlay');
+    
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        
+        // Validate file size (5MB limit)
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('File size must be less than 5MB', 'error');
+            input.value = '';
+            return;
+        }
+        
+        // Validate file type
+        if (!file.type.match('image.*')) {
+            showToast('Please select a valid image file', 'error');
+            input.value = '';
+            return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+            previewImage.classList.remove('hidden');
+            imageOverlay.classList.remove('hidden');
+            uploadPlaceholder.classList.add('hidden');
+        }
+        
+        reader.readAsDataURL(file);
+    } else {
+        resetImagePreview();
+    }
+}
+
+function resetImagePreview() {
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImage = document.getElementById('previewImage');
+    const uploadPlaceholder = imagePreview.querySelector('.upload-placeholder');
+    const imageOverlay = imagePreview.querySelector('.image-overlay');
+    
+    previewImage.classList.add('hidden');
+    imageOverlay.classList.add('hidden');
+    uploadPlaceholder.classList.remove('hidden');
+    previewImage.src = '';
+}
+
+// Form submission handler
+async function handleFormSubmission(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const btnContent = document.getElementById('btnContent');
+    const btnLoading = document.getElementById('btnLoading');
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    btnContent.classList.add('hidden');
+    btnLoading.classList.remove('hidden');
+    
+    try {
+        const formData = new FormData(e.target);
+        
+        // Validate required fields
+        const requiredFields = ['full_name', 'age', 'email', 'city', 'district'];
+        for (let field of requiredFields) {
+            if (!formData.get(field)) {
+                throw new Error(`Please fill in the ${field.replace('_', ' ')} field`);
+            }
+        }
+        
+        // Validate email format
+        const email = formData.get('email');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            throw new Error('Please enter a valid email address');
+        }
+        
+        // Validate age
+        const age = parseInt(formData.get('age'));
+        if (age < 16 || age > 100) {
+            throw new Error('Age must be between 16 and 100');
+        }
+        
+        // Validate social media JSON if provided
+        const socials = formData.get('socials');
+        if (socials && socials.trim()) {
+            try {
+                JSON.parse(socials);
+            } catch {
+                throw new Error('Social media links must be in valid JSON format');
+            }
+        }
+        
+        const response = await fetch('/api/applications/submit', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Reset form
+            e.target.reset();
+            resetImagePreview();
+            
+            // Show success modal
+            showSuccessModal();
+            showToast('Application submitted successfully!', 'success');
+        } else {
+            throw new Error(result.error || 'Failed to submit application');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast(error.message, 'error');
+    } finally {
+        // Reset button state
+        submitBtn.disabled = false;
+        btnContent.classList.remove('hidden');
+        btnLoading.classList.add('hidden');
+    }
+}
+
+// Modal functions
+function showSuccessModal() {
+    const modal = document.getElementById('successModal');
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSuccessModal() {
+    const modal = document.getElementById('successModal');
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+// Global functions for HTML onclick handlers
+window.previewImage = previewImage;
+window.closeSuccessModal = closeSuccessModal;
+
+// Close modal when clicking on overlay
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('successModal');
+    if (e.target === modal || e.target.classList.contains('modal-overlay')) {
+        closeSuccessModal();
+    }
+});
+
 // Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
@@ -211,7 +373,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Keyboard navigation support
 document.addEventListener('keydown', function(e) {
-    // ESC key closes mobile menu and dropdown
+    // ESC key closes mobile menu, dropdown, and modal
     if (e.key === 'Escape') {
         const navMenu = document.getElementById('navMenu');
         if (navMenu && navMenu.classList.contains('active')) {
@@ -232,6 +394,12 @@ document.addEventListener('keydown', function(e) {
         const dropdown = document.querySelector('.dropdown.active');
         if (dropdown) {
             dropdown.classList.remove('active');
+        }
+        
+        // Close modal
+        const modal = document.getElementById('successModal');
+        if (modal && !modal.classList.contains('hidden')) {
+            closeSuccessModal();
         }
     }
 });
