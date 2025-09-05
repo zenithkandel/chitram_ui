@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply as Artist - Chitram</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/apply.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/" class="brand-link">
+                    <i class="fas fa-palette brand-icon"></i>
+                    <span class="brand-text">Chitram</span>
+                </a>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-menu" id="navMenu">
+                <button class="nav-close" id="navClose">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="nav-links-container">
+                    <a href="/" class="nav-link">Home</a>
+                    <a href="/gallery" class="nav-link">Gallery</a>
+                    <a href="/artists" class="nav-link">Artists</a>
+                    <a href="/about" class="nav-link">About</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="/cart" class="nav-cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="nav-cart-text">Cart</span>
+                        <span class="cart-count" id="cartCountMobile">0</span>
+                    </a>
+                    <a href="/apply" class="nav-apply-btn active">
+                        <i class="fas fa-paint-brush"></i>
+                        <span>Apply as Artist</span>
+                    </a>
+                    <a href="/track-orders" class="nav-track-btn">
+                        <i class="fas fa-search"></i>
+                        <span>Track Orders</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Desktop Actions -->
+            <div class="nav-desktop-actions">
+                <div class="dropdown">
+                    <button class="dropdown-btn" id="dropdownBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-header">
+                            <h4>Shopping Cart</h4>
+                        </div>
+                        <div class="dropdown-content" id="cartDropdown">
+                            <p class="empty-cart">Your cart is empty</p>
+                        </div>
+                        <div class="dropdown-footer">
+                            <a href="/cart" class="dropdown-item cart-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                View Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="/apply" class="nav-apply-btn active">
+                    <i class="fas fa-paint-brush"></i>
+                    <span>Apply as Artist</span>
+                </a>
+                <a href="/track-orders" class="nav-track-btn">
+                    <i class="fas fa-search"></i>
+                    <span>Track Orders</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h1 class="hero-title">
+                        Join Our <span class="gradient-text">Artist Community</span>
+                    </h1>
+                    <p class="hero-description">
+                        Showcase your artistic talent and connect with art enthusiasts worldwide. 
+                        Join Chitram's growing community of passionate artists.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Content will go here -->
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-grid">
+                    <div class="footer-column">
+                        <div class="footer-brand">
+                            <i class="fas fa-palette"></i>
+                            <span>Chitram</span>
+                        </div>
+                        <p class="footer-description">
+                            Connecting artists with art lovers, creating a vibrant community where creativity meets passion.
+                        </p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Explore</h4>
+                        <a href="/gallery">
+                            <i class="fas fa-images"></i>
+                            Art Gallery
+                        </a>
+                        <a href="/artists">
+                            <i class="fas fa-users"></i>
+                            Our Artists
+                        </a>
+                        <a href="/about">
+                            <i class="fas fa-info-circle"></i>
+                            About Us
+                        </a>
+                        <a href="/contact">
+                            <i class="fas fa-envelope"></i>
+                            Contact
+                        </a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Services</h4>
+                        <a href="/apply">
+                            <i class="fas fa-paint-brush"></i>
+                            Apply as Artist
+                        </a>
+                        <a href="/custom-art">
+                            <i class="fas fa-magic"></i>
+                            Custom Artwork
+                        </a>
+                        <a href="/consultation">
+                            <i class="fas fa-comments"></i>
+                            Art Consultation
+                        </a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <a href="/track-orders">
+                            <i class="fas fa-search"></i>
+                            Track Orders
+                        </a>
+                        <a href="/returns">
+                            <i class="fas fa-undo"></i>
+                            Returns Policy
+                        </a>
+                        <a href="/shipping">
+                            <i class="fas fa-shipping-fast"></i>
+                            Shipping Info
+                        </a>
+                        <a href="/privacy">
+                            <i class="fas fa-shield-alt"></i>
+                            Privacy Policy
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2025 Chitram. All rights reserved.</p>
+                    <div class="footer-bottom-links">
+                        <a href="/terms">Terms of Service</a>
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/cookies">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="/js/apply.js"></script>
+</body>
+</html>

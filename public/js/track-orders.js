@@ -268,7 +268,6 @@ function displayOrderDetails(order) {
         'placed': '#ffc107',
         'seen': '#17a2b8',
         'contacted': '#6f42c1',
-        'sold': '#fd7e14',
         'delivered': '#28a745',
         'canceled': '#dc3545'
     };
@@ -278,7 +277,6 @@ function displayOrderDetails(order) {
         'placed': 'Your order has been placed successfully and is awaiting review',
         'seen': 'Your order has been reviewed by our team and is being processed',
         'contacted': 'We have contacted you regarding your order details and delivery',
-        'sold': 'Your artwork has been confirmed and is being prepared for delivery',
         'delivered': 'Your order has been successfully delivered to you',
         'canceled': 'Your order has been canceled. Please contact support for details'
     };
