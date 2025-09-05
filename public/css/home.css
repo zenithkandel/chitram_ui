@@ -672,7 +672,7 @@ body::before {
 
 .hero-container {
     max-width: 1200px;
-    margin: var(--space-20) auto 0;
+    margin: var(--space-6) auto 0;
     padding: 0 var(--space-4);
     position: relative;
     z-index: 2;
@@ -916,9 +916,15 @@ body::before {
     background-color: var(--bg-secondary);
 }
 
+@media (max-width: 768px) {
+    .latest-artworks {
+        padding: var(--space-12) 0;
+    }
+}
+
 @media (max-width: 375px) {
     .latest-artworks {
-        padding: var(--space-16) 0;
+        padding: var(--space-8) 0;
     }
 }
 
@@ -1130,9 +1136,15 @@ body::before {
     padding: var(--space-20) 0;
 }
 
+@media (max-width: 768px) {
+    .features {
+        padding: var(--space-12) 0;
+    }
+}
+
 @media (max-width: 375px) {
     .features {
-        padding: var(--space-16) 0;
+        padding: var(--space-8) 0;
     }
 }
 
@@ -1212,9 +1224,15 @@ body::before {
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+    .cta {
+        padding: var(--space-12) 0;
+    }
+}
+
 @media (max-width: 375px) {
     .cta {
-        padding: var(--space-16) 0;
+        padding: var(--space-8) 0;
     }
 }
 
@@ -1537,6 +1555,7 @@ body::before {
 
 .social-links {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-3);
     justify-content: flex-start;
     margin-top: var(--space-2);
