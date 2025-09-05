@@ -1,0 +1,33 @@
+<%# 
+  Image Helper Template for Chitram UI
+  Usage: <%- include('partials/safe-image', { 
+    src: '/uploads/artworks/image.jpg', 
+    alt: 'Alt text', 
+    type: 'artwork', 
+    className: 'custom-class',
+    loading: 'lazy'
+  }) %>
+%>
+
+<%
+  // Set defaults
+  const imageSrc = src || '';
+  const imageAlt = alt || 'Image';
+  const imageType = type || 'general';
+  const imageClass = className || '';
+  const imageLoading = loading || 'lazy';
+  const originalSrc = originalSrc || imageSrc;
+  
+  // Get safe path using server-side helper
+  const safeSrc = getSafeImagePath ? getSafeImagePath(imageSrc, imageType) : imageSrc;
+%>
+
+<img src="<%= safeSrc %>" 
+     alt="<%= imageAlt %>" 
+     data-type="<%= imageType %>"
+     <% if (originalSrc !== safeSrc) { %>data-original-src="<%= originalSrc %>"<% } %>
+     <% if (imageClass) { %>class="<%= imageClass %>"<% } %>
+     <% if (imageLoading) { %>loading="<%= imageLoading %>"<% } %>
+     <% if (typeof width !== 'undefined') { %>width="<%= width %>"<% } %>
+     <% if (typeof height !== 'undefined') { %>height="<%= height %>"<% } %>
+     <% if (typeof style !== 'undefined') { %>style="<%= style %>"<% } %>>

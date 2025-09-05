@@ -1,14 +1,21 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const ServerImageHandler = require('./utils/image-handler');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Initialize image handler
+const imageHandler = new ServerImageHandler();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Add image handler middleware
+app.use(imageHandler.createMiddleware());
 
 // Set EJS as template engine
 app.set('view engine', 'ejs');
@@ -80,9 +87,12 @@ const mockArtworks = [
 
 // Routes
 app.get('/', (req, res) => {
+    // Process artworks with safe image paths
+    const processedArtworks = imageHandler.processArtworkData([...mockArtworks]);
+    
     res.render('home', {
         stats: mockStats,
-        latestArtworks: mockArtworks
+        latestArtworks: processedArtworks
     });
 });
 
