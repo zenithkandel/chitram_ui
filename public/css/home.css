@@ -678,8 +678,15 @@ body::before {
     z-index: 2;
 }
 
+@media (max-width: 768px) {
+    .hero-container {
+        margin: var(--space-6) auto 0;
+    }
+}
+
 @media (max-width: 375px) {
     .hero-container {
+        margin: var(--space-4) auto 0;
         padding: 0 var(--space-3);
     }
 }
