@@ -659,20 +659,20 @@ body::before {
     min-height: calc(100vh - 80px);
     display: flex;
     align-items: center;
-    padding: calc(var(--space-20) + 60px) 0 var(--space-16);
+    padding: calc(var(--space-20) + 120px) 0 var(--space-16);
     overflow: hidden;
 }
 
 @media (max-width: 375px) {
     .hero {
-        padding: calc(var(--space-16) + 60px) 0 var(--space-12);
+        padding: calc(var(--space-16) + 100px) 0 var(--space-12);
         min-height: calc(90vh - 60px);
     }
 }
 
 .hero-container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: var(--space-20) auto 0;
     padding: 0 var(--space-4);
     position: relative;
     z-index: 2;
