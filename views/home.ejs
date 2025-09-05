@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chitram - Digital Art Marketplace</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>चित्रम्</h1>
+                <span>Chitram</span>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/" class="nav-link active">Home</a>
+                <a href="/gallery" class="nav-link">Gallery</a>
+                <a href="/artists" class="nav-link">Artists</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/apply" class="nav-link">Apply</a>
+                <div class="nav-actions">
+                    <a href="/cart" class="cart-btn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                    <a href="/track-orders" class="btn btn-outline">Track Order</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Discover & Collect
+                    <span class="gradient-text">Digital Art</span>
+                </h1>
+                <p class="hero-description">
+                    Explore unique digital artworks from talented artists around the world. 
+                    Buy, sell, and showcase extraordinary digital creations.
+                </p>
+                <div class="hero-actions">
+                    <a href="/gallery" class="btn btn-primary">Explore Gallery</a>
+                    <a href="/artists" class="btn btn-secondary">Meet Artists</a>
+                </div>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><%= stats.dailyViews || 0 %></h3>
+                        <p>Daily Views</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><%= stats.totalArtists || 0 %></h3>
+                        <p>Active Artists</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><%= stats.totalArts || 0 %></h3>
+                        <p>Artworks</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3><%= stats.totalOrders || 0 %></h3>
+                        <p>Orders</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating Elements -->
+        <div class="floating-elements">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+        </div>
+    </section>
+
+    <!-- Latest Artworks Section -->
+    <section class="latest-artworks">
+        <div class="container">
+            <div class="section-header">
+                <h2>Latest Artworks</h2>
+                <p>Discover the newest additions to our collection</p>
+                <a href="/gallery" class="view-all-btn">
+                    View All <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="artwork-grid">
+                <% if (latestArtworks && latestArtworks.length > 0) { %>
+                    <% latestArtworks.forEach(artwork => { %>
+                        <div class="artwork-card">
+                            <div class="artwork-image">
+                                <img src="/uploads/artworks/<%= artwork.art_image %>" 
+                                     alt="<%= artwork.art_name %>" 
+                                     onerror="this.src='/images/placeholder-artwork.jpg'">
+                                <div class="artwork-overlay">
+                                    <button class="btn btn-icon add-to-cart" data-artwork-id="<%= artwork.unique_id %>">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </button>
+                                    <a href="/artwork/<%= artwork.unique_id %>" class="btn btn-icon">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                                <div class="artwork-category">
+                                    <%= artwork.art_category %>
+                                </div>
+                            </div>
+                            
+                            <div class="artwork-info">
+                                <h3 class="artwork-title">
+                                    <a href="/artwork/<%= artwork.unique_id %>">
+                                        <%= artwork.art_name %>
+                                    </a>
+                                </h3>
+                                <p class="artwork-artist">
+                                    by <a href="/artist/<%= artwork.artist_unique_id %>">
+                                        <%= artwork.artist_name %>
+                                    </a>
+                                </p>
+                                <div class="artwork-price">
+                                    ₹<%= artwork.cost.toLocaleString() %>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>No artworks yet</h3>
+                        <p>Be the first to discover amazing art pieces</p>
+                        <a href="/apply" class="btn btn-primary">Become an Artist</a>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose Chitram?</h2>
+                <p>Your gateway to the digital art world</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Secure Transactions</h3>
+                    <p>Safe and secure payment processing with order tracking</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Curated Artists</h3>
+                    <p>Handpicked talented artists creating unique digital masterpieces</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Browse and buy art seamlessly on any device, anywhere</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Support Artists</h3>
+                    <p>Directly support digital artists and help them grow their careers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Start Your Art Journey?</h2>
+                <p>Join thousands of art lovers and discover your next favorite piece</p>
+                <div class="cta-actions">
+                    <a href="/gallery" class="btn btn-primary">Browse Gallery</a>
+                    <a href="/apply" class="btn btn-outline">Apply as Artist</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>चित्रम् Chitram</h3>
+                    <p>Digital art marketplace connecting artists with art lovers worldwide.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Explore</h4>
+                        <a href="/gallery">Gallery</a>
+                        <a href="/artists">Artists</a>
+                        <a href="/about">About</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <a href="/track-orders">Track Orders</a>
+                        <a href="/contact">Contact</a>
+                        <a href="/faq">FAQ</a>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Artists</h4>
+                        <a href="/apply">Apply</a>
+                        <a href="/artist-guide">Guide</a>
+                        <a href="/terms">Terms</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Chitram. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="/js/home.js"></script>
+</body>
+</html>
