@@ -1345,12 +1345,25 @@ body::before {
     margin-bottom: var(--space-6);
 }
 
+@media (max-width: 768px) {
+    .footer-brand p {
+        margin-bottom: var(--space-4);
+        font-size: var(--font-size-sm);
+    }
+}
+
 /* Footer Stats */
 .footer-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--space-4);
     margin-top: var(--space-4);
+}
+
+@media (max-width: 768px) {
+    .footer-stats {
+        display: none;
+    }
 }
 
 .footer-stat {
