@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     initializeDropdown();
     initializeCart();
+    initializeToast();
 });
 
 // Navigation functionality
@@ -140,6 +141,57 @@ function updateCartCount() {
     if (cartCountMobileElement) {
         cartCountMobileElement.textContent = cart.length;
     }
+}
+
+// Toast notification system
+function initializeToast() {
+    // Create toast container if it doesn't exist
+    if (!document.getElementById('toast')) {
+        const toast = document.createElement('div');
+        toast.id = 'toast';
+        toast.className = 'toast';
+        toast.innerHTML = `
+            <div class="toast-content">
+                <i class="toast-icon"></i>
+                <span class="toast-message"></span>
+            </div>
+        `;
+        document.body.appendChild(toast);
+    }
+}
+
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    const toastIcon = toast.querySelector('.toast-icon');
+    const toastMessage = toast.querySelector('.toast-message');
+    
+    // Set message
+    toastMessage.textContent = message;
+    
+    // Set icon and style based on type
+    toast.className = `toast ${type}`;
+    
+    switch (type) {
+        case 'success':
+            toastIcon.className = 'toast-icon fas fa-check-circle';
+            break;
+        case 'error':
+            toastIcon.className = 'toast-icon fas fa-exclamation-circle';
+            break;
+        case 'warning':
+            toastIcon.className = 'toast-icon fas fa-exclamation-triangle';
+            break;
+        default:
+            toastIcon.className = 'toast-icon fas fa-info-circle';
+    }
+    
+    // Show toast
+    toast.classList.add('show');
+    
+    // Hide after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
 }
 
 // Smooth scrolling for anchor links
