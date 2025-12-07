@@ -5,6 +5,8 @@ This report maps all EJS view pages that are rendered by the app to their URL ro
 ## Views directory overview
 
 ```
+
+
 views/
 ├─ about.ejs                  # Public about page (used)
 ├─ apply.ejs                  # Public artist application form (used)
