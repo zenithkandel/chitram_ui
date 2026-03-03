@@ -213,4 +213,4 @@ Generated from current code (controllers/routes/server) to reflect the actual pa
 - Artists: email unique; soft-delete via status; profile picture replacement deletes old file.
 - Artworks: status controls public visibility; artist change adjusts `arts_uploaded` counters; soft-delete removes from public and decrements counters.
 - Orders: status transitions may update timestamps (seen/delivered); IDs are unique (either client-generated or server-generated depending on endpoint).
-
+<!-- streak-auto:2026-03-03T15:07:19 -->
