@@ -1,4 +1,4 @@
-# Chitram (चित्रम्) — Pages, Routes, and Features Map
+# Chitram (चित्रम्) — Pages, Routes, and Features Map 
 
 This report maps all EJS view pages that are rendered by the app to their URL routes and summarizes key features available on each page.
 
